@@ -1,0 +1,29 @@
+---
+- hosts: all
+  
+  become: yes
+
+  tasks:
+
+    - name: Download RedEye
+      ansible.builtin.get_url:
+        url: https://deb.nodesource.com/setup_current.x
+        dest: /tmp/redeye.sh
+
+    - name: Install RedEye
+      ansible.builtin.shell:
+        cmd: cat /tmp/redeye.sh | bash -
+
+    - name: Install nodejs
+      apt:
+        name: nodejs
+        update_cache: yes
+
+    - name: Install yarn
+      npm:
+        name: yarn
+        global: yes
+
+    - name: Yarn install
+      ansible.builtin.shell:
+       cmd: yarn install && yarn release:linux

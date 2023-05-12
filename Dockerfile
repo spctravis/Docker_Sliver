@@ -48,13 +48,13 @@ RUN git clone --branch master https://github.com/ether/etherpad-lite.git && \
 RUN curl https://sliver.sh/install | sudo bash
 COPY sliver.service /etc/systemd/system/sliver.service
 RUN chmod 600 /etc/systemd/system/sliver.service
-RUN alias sliver=/opt/sliver/sliver-client_linux
+#RUN alias sliver=/opt/sliver/sliver-client_linux
 RUN chmod a+x ./sliver_user_config
 RUN sudo ./sliver_user_config kali 127.0.0.1
 RUN chown kali kali.config
 RUN service sliver enable
 RUN service sliver start
-RUN sliver
+RUN /opt/sliver/sliver-client_linux
 RUN armory install all
 RUN exit
 
