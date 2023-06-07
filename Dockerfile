@@ -1,5 +1,4 @@
-FROM kalilinux/kali-rolling
-LABEL maintainer="Shane Frasier"
+FROM ubuntu:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -28,21 +27,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
-
-# Install https://github.com/cisagov/RedEye#readme
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
-    apt-get install -y nodejs
-RUN npm install --global yarn
-RUN npm upgrade --global yarn
-RUN yarn install
-RUN yarn release:linux
-
-# Install Etherpad
-RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-RUN sudo apt install -y nodejs
-RUN git clone --branch master https://github.com/ether/etherpad-lite.git && \
-    cd etherpad-lite && \
-    src/bin/run.sh
 
 # Install Sliver
 RUN curl https://sliver.sh/install | sudo bash
